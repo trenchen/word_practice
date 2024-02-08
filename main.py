@@ -81,12 +81,12 @@ def load_file(choseFile):
 
 def home_page():
     for _,_,files in os.walk(project_dir):
-        print(files)
-    for file in files:
-        if '.txt' in file:
-            button = Button(window, text=file, bg='yellow', command=lambda chfile=file : load_file(chfile))
-            button.pack(side='top', fill='x', pady=5)
-            home_button.append(button)
+        for file in files:
+            if '.txt' in file:
+                print(file)
+                button = Button(window, text=file, bg='yellow', command=lambda chfile=file : load_file(chfile))
+                button.pack(side='top', fill='x', pady=5)
+                home_button.append(button)
 
 
 window = Tk()
