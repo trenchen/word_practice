@@ -1,6 +1,8 @@
 from tkinter import *
+from gtts import gTTS
+from pygame import mixer
 import os
-import pyttsx3
+
 
 winWidth = 500
 winHeight = 500
@@ -13,9 +15,7 @@ home_button=[]
 load_file_object=[]
 new_label=0
 
-sound = pyttsx3.init()
-sound.setProperty('voice', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Speech\\Voices\\Tokens\\TTS_MS_EN-US_ZIRA_11.0')
-sound.setProperty('rate', 180)
+mixer.init()
 
 def show_word():
     new_label['text'] = words[current_word]
@@ -30,8 +30,15 @@ def read_word():
     global current_word
     if(current_word >= len(words)):
         current_word = 0
-    sound.say(words[current_word])
-    sound.runAndWait()
+        
+    tts = gTTS(words[current_word])
+    tts.save('temp.mp3')
+    mixer.music.load('temp.mp3')
+    mixer.music.play()
+    while mixer.music.get_busy() == True:
+            continue
+    mixer.music.unload()
+    os.remove('temp.mp3')
 
 def show_home():
     #destory now
